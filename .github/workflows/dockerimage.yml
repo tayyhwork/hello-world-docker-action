@@ -65,8 +65,8 @@ jobs:
     - name: Sign the image
       run: |
         docker trust sign tayyhwork/dct-demo-4:1-signed <<EOF
-         ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-         ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+         ${{ secrets.CERTIFICATE_PASS }}
+         ${{ secrets.CERTIFICATE_PASS }}
          EOF     
         
     - name: Push the signed image
