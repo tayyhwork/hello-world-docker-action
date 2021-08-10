@@ -41,37 +41,37 @@
                       
           - name: Create file containing Code Signing Certificate and Delegation Private Key
             run: |
-                echo "${{secrets.CERTIFICATE_KEY}}" > cert_key_01.key
-                chmod 600 cert_key_01.key
-                echo "${{secrets.CERTIFICATE}}" > cert_01.crt
-                chmod 600 cert_01.crt         
+              echo "${{secrets.CERTIFICATE_KEY}}" > cert_key_01.key
+              chmod 600 cert_key_01.key
+              echo "${{secrets.CERTIFICATE}}" > cert_01.crt
+              chmod 600 cert_01.crt         
           
           - name: Load the key into trust store
             run: |
-             docker trust key load cert_key_01.key --name dock_cert_key_01 <<EOF
-               ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-               ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-             EOF
+              docker trust key load cert_key_01.key --name dock_cert_key_01 <<EOF
+              ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+              ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+              EOF
              
           - name: Add the delegation public key
             run: |
               docker trust signer add --key cert_01.crt dock_cert_key_01 tayyhwork/dct-demo-01:1 <<EOF 
-                ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-                ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-                ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-                ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+              ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+              ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+              ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+              ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
               EOF    
-                      
+
           - name: Tag the signed image
             run: |
-             docker tag tayyhwork/dct-demo-01:1 tayyhwork/dct-demo-01:1-signed
+              docker tag tayyhwork/dct-demo-01:1 tayyhwork/dct-demo-01:1-signed
           
           - name: Sign the image
             run: |
               docker trust sign tayyhwork/dct-demo-01:1-signed <<EOF
-               ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-               ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-               EOF     
+              ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+              ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+              EOF     
               
           - name: Push the signed image
             run: |    
