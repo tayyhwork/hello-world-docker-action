@@ -48,14 +48,14 @@
           
           - name: Load the key into trust store
             run: |
-              docker trust key load cert_key_01.key --name dock_cert_key_01 <<EOF
+              docker trust key load cert_key_01.key --name dock_cert_key_01 <<-EOF
               ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
               ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
               EOF
              
           - name: Add the delegation public key
             run: |
-              docker trust signer add --key cert_01.crt dock_cert_key_01 tayyhwork/dct-demo-01:1 <<EOF 
+              docker trust signer add --key cert_01.crt dock_cert_key_01 tayyhwork/dct-demo-01:1 <<-EOF 
               ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
               ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
               ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
@@ -68,7 +68,7 @@
           
           - name: Sign the image
             run: |
-              docker trust sign tayyhwork/dct-demo-01:1-signed <<EOF
+              docker trust sign tayyhwork/dct-demo-01:1-signed <<-EOF
               ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
               ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
               EOF     
