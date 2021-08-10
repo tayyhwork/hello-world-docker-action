@@ -55,10 +55,10 @@
              
           - name: Add the delegation public key
             run: |
-              { echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
-                sleep 15 && echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
-                sleep 15 && echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
-                sleep 15 && echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
+              {echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
+               echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
+               echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
+               echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
               } | docker trust signer add --key cert_01.crt dock_cert_key_01 tayyhwork/dct-demo-01:1  
 
           - name: Tag the signed image
