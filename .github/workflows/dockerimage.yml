@@ -102,7 +102,7 @@ jobs:
     - name: Link to the network drive
       run: |  
         sudo mkdir /TarDir
-        sudo mount -t cifs //githubreporelstorage.file.core.windows.net/sharefile /TarDir -o vers=3.0,username=githubreporelstorage,password=${{ secrets.AZURE_PASS }},dir_mode=0777,file_mode=0777
+        sudo mount -t cifs //${{secrets.AZURE_USER }}.file.core.windows.net/sharefile /TarDir -o vers=3.0,username=${{secrets.AZURE_USER }},password=${{ secrets.AZURE_PASS }},dir_mode=0777,file_mode=0777
 
     - name: Tar and copy the image for transferring
       run: | 
