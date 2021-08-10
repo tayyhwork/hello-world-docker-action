@@ -56,10 +56,10 @@
           - name: Add the delegation public key
             run: |
               docker trust signer add --key cert_01.crt dock_cert_key_01 tayyhwork/dct-demo-01:1 <<-EOF
-              ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-              ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-              ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-              ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+              ${{ secrets.CERTIFICATE_PASS }}
+              ${{ secrets.CERTIFICATE_PASS }}
+              ${{ secrets.CERTIFICATE_PASS }}
+              ${{ secrets.CERTIFICATE_PASS }}
               EOF
 
           - name: Tag the signed image
