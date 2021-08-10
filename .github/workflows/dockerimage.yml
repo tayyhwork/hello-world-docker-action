@@ -44,8 +44,8 @@ jobs:
     - name: Load the Cert key
       run: |
        docker trust key load cert_key_5.key --name dock_cert_key_5 <<-EOF
-         password
-         password
+         pa$$w0rd
+         pa$$w0rd
        EOF
        
     - name: Add signer
@@ -64,8 +64,8 @@ jobs:
     - name: Sign the image
       run: |
         docker trust sign tayyhwork/dct-demo-5:1-signed <<EOF
-         password
-         password
+         pa$$w0rd
+         pa$$w0rd
          EOF     
         
     - name: Push the signed image
