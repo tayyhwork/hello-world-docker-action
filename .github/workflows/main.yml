@@ -55,7 +55,7 @@
              
           - name: Add the delegation public key
             run: |
-              { sleep 15 && echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
+              { echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
                 sleep 15 && echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
                 sleep 15 && echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
                 sleep 15 && echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
