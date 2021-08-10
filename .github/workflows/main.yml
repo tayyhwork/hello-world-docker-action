@@ -55,12 +55,12 @@
              
           - name: Add the delegation public key
             run: |
-              docker trust signer add --key cert_01.crt dock_cert_key_01 tayyhwork/dct-demo-01:1 <<-EOF 
+              docker trust signer add --key cert_01.crt dock_cert_key_01 tayyhwork/dct-demo-01:1 <<-EOF
               ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
               ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
               ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
               ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-              EOF    
+              EOF
 
           - name: Tag the signed image
             run: |
@@ -71,27 +71,27 @@
               docker trust sign tayyhwork/dct-demo-01:1-signed <<-EOF
               ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
               ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-              EOF     
+              EOF
               
           - name: Push the signed image
-            run: |    
+            run: |
               docker push tayyhwork/dct-demo-01:1-signed
           
           - name: DCT On
-            run: |      
+            run: |
               export DOCKER_CONTENT_TRUST=1  
               
           - name: Pull the unsigned image (fail) 
-            run: |    
+            run: |
               docker pull tayyhwork/dct-demo-01:1    
           
           - name: DCT Off
-            run: |      
+            run: |
               export DOCKER_CONTENT_TRUST=0 
             
           - name: Pull the unsigned image (pass)
-            run: |    
-              docker pull tayyhwork/dct-demo-01:1    
+            run: |
+              docker pull tayyhwork/dct-demo-01:1
           
           - name: Upload image
             uses: ishworkh/docker-image-artifact-upload@v1
@@ -104,11 +104,11 @@
               image: tayyhwork/dct-demo-01:1-signed
           
           - name: Link to the network drive
-            run: |  
+            run: |
               sudo mkdir /TarDir
               sudo mount -t cifs //${{secrets.AZURE_USER }}.file.core.windows.net/sharefile /TarDir -o vers=3.0,username=${{secrets.AZURE_USER }},password=${{ secrets.AZURE_PASS }},dir_mode=0777,file_mode=0777
           
           - name: Tar and copy the image for transferring
-            run: | 
+            run: |
               docker save tayyhwork/dct-demo-01:1-signed | gzip > dct-demo-01:1-signed.tar.gz
               cp dct-demo-01:1-signed.tar.gz /TarDir
