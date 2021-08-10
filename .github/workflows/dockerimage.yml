@@ -36,15 +36,15 @@ jobs:
                 
     - name: Create Code Signing Certificate and Cert Key
       run: |
-          echo "${{secrets.CERTIFICATE_KEY}}" > cert_key_1.key
-          chmod 600 cert_key_1.key
-          echo "${{secrets.CERTIFICATE}}" > cert_1.crt
-          chmod 600 cert_1.crt         
+          echo "${{secrets.CERTIFICATE_KEY}}" > cert_key_2.key
+          chmod 600 cert_key_2.key
+          echo "${{secrets.CERTIFICATE}}" > cert_2.crt
+          chmod 600 cert_2.crt         
 
           
     - name: Load the Cert key
       run: |
-       docker trust key load cert_key_1.key --name dock_cert_key_1 <<-EOF
+       docker trust key load cert_key_2.key --name dock_cert_key_2 <<-EOF
          ${{ secrets.CERTIFICATE_PASS }}
          ${{ secrets.CERTIFICATE_PASS }}
        EOF
@@ -55,7 +55,7 @@ jobs:
           echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
           sleep 15 && echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
           echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
-        } | docker trust signer add --key cert_1.crt dock_cert_key_1 tayyhwork/dct-demo-1:1         
+        } | docker trust signer add --key cert_2.crt dock_cert_key_2 tayyhwork/dct-demo-1:1         
 
                 
     - name: Tag the signed image
