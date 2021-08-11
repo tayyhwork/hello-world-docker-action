@@ -31,20 +31,20 @@ jobs:
         
     - name: Tag the image
       run: |
-        docker tag tayyhwork/hello-world-docker-action:latest tayyhwork/dct-demo-21:1
-        docker push tayyhwork/dct-demo-21:1
+        docker tag tayyhwork/hello-world-docker-action:latest tayyhwork/dct-demo-22:1
+        docker push tayyhwork/dct-demo-22:1
                 
     - name: Create Code Signing Certificate and Cert Key
       run: |
-          echo "${{secrets.CERTIFICATE_KEY}}" > cert_key_23.key
-          chmod 600 cert_key_23.key
-          echo "${{secrets.CERTIFICATE}}" > cert_23.crt
-          chmod 600 cert_23.crt         
+          echo "${{secrets.CERTIFICATE_KEY}}" > cert_key_22.key
+          chmod 600 cert_key_22.key
+          echo "${{secrets.CERTIFICATE}}" > cert_22.crt
+          chmod 600 cert_22.crt         
 
           
     - name: Load the Cert key
       run: |
-       docker trust key load cert_key_23.key --name dock_cert_key_23 <<-EOF
+       docker trust key load cert_key_22.key --name dock_cert_key_22 <<-EOF
          ${{ secrets.CERTIFICATE_PASS }}
          ${{ secrets.CERTIFICATE_PASS }}
        EOF
@@ -55,49 +55,49 @@ jobs:
           echo '${{ secrets.CERTIFICATE_PASS }}';
           sleep 15 && echo '${{ secrets.CERTIFICATE_PASS }}';
           echo '${{ secrets.CERTIFICATE_PASS }}';
-        } | docker trust signer add --key cert_23.crt dock_cert_key_23 tayyhwork/dct-demo-21:1         
+        } | docker trust signer add --key cert_22.crt dock_cert_key_22 tayyhwork/dct-demo-22:1         
 
                 
     - name: Tag the signed image
       run: |
-       docker tag tayyhwork/dct-demo-21:1 tayyhwork/dct-demo-21:1-signed
+       docker tag tayyhwork/dct-demo-22:1 tayyhwork/dct-demo-22:1-signed
 
     - name: Sign the image
       run: |
-        docker trust sign tayyhwork/dct-demo-21:1-signed <<-EOF
+        docker trust sign tayyhwork/dct-demo-22:1-signed <<-EOF
          ${{ secrets.CERTIFICATE_PASS }}
          ${{ secrets.CERTIFICATE_PASS }}
          EOF     
         
     - name: Push the signed image
       run: |    
-        docker push tayyhwork/dct-demo-21:1-signed
+        docker push tayyhwork/dct-demo-22:1-signed
     - name: DCT On
       run: |      
         export DOCKER_CONTENT_TRUST=1  
       
     - name: Pull the unsigned image (fail) 
       run: |    
-        docker pull tayyhwork/dct-demo-21:1    
+        docker pull tayyhwork/dct-demo-22:1    
     - name: DCT Off
       run: |      
         export DOCKER_CONTENT_TRUST=0 
       
     - name: Pull the unsigned image (pass)
       run: |    
-        docker pull tayyhwork/dct-demo-21:1    
+        docker pull tayyhwork/dct-demo-22:1    
   
       
     - name: Upload image
       uses: ishworkh/docker-image-artifact-upload@v1
       with:
-        image: tayyhwork/dct-demo-21:1-signed
+        image: tayyhwork/dct-demo-22:1-signed
         
         
     - name: Download image
       uses: ishworkh/docker-image-artifact-download@v1
       with:
-        image: tayyhwork/dct-demo-21:1-signed
+        image: tayyhwork/dct-demo-22:1-signed
 
     - name: Link to the network drive
       run: |  
@@ -106,5 +106,5 @@ jobs:
 
     - name: Tar and copy the image for transferring
       run: | 
-        docker save tayyhwork/dct-demo-21:1-signed | gzip > dct-demo-21:1-signed.tar.gz
-        cp dct-demo-21:1-signed.tar.gz /TarDir
+        docker save tayyhwork/dct-demo-22:1-signed | gzip > dct-demo-22:1-signed.tar.gz
+        cp dct-demo-22:1-signed.tar.gz /TarDir
