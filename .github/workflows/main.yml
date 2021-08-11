@@ -46,19 +46,19 @@
               echo "${{secrets.CERTIFICATE}}" > cert_01.crt
               chmod 600 cert_01.crt         
           
-          - name: Load the key into trust store
+          - name: Add a delegation private key
             run: |
               docker trust key load cert_key_01.key --name dock_cert_key_01 <<-EOF
-              ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-              ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+              ${{ secrets.CERTIFICATE_PASS }}
+              ${{ secrets.CERTIFICATE_PASS }}
               EOF
              
           - name: Add the delegation public key
             run: |
-              {echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
-               echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
-               echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
-               echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
+              { echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
+              echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
+              sleep 15 && echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
+              echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
               } | docker trust signer add --key cert_01.crt dock_cert_key_01 tayyhwork/dct-demo-01:1  
 
           - name: Tag the signed image
@@ -67,9 +67,9 @@
           
           - name: Sign the image
             run: |
-              docker trust sign tayyhwork/dct-demo-01:1-signed <<-EOF
-              ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-              ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+              docker trust sign tayyhwork/dct-demo-01:1-signed <<EOF
+              ${{ secrets.CERTIFICATE_PASS }}
+              ${{ secrets.CERTIFICATE_PASS }}
               EOF
               
           - name: Push the signed image
